@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-row>
+    <h2>Randzeiten</h2>
+    <v-col cols="5" class="d-inline-flex pa-2">
       <v-menu
         ref="menu1"
         v-model="menu1"
@@ -23,9 +24,9 @@
           @click:minute="setTime(startTime, $refs.menu1)"
         ></v-time-picker>
       </v-menu>
-    </v-row>
+    </v-col>
 
-    <v-row>
+    <v-col cols="5" class="d-inline-flex pa-2"> 
       <v-menu
         ref="menu2"
         v-model="menu2"
@@ -48,20 +49,18 @@
           @click:minute="setTime(endTime, $refs.menu2)"
         ></v-time-picker>
       </v-menu>
-    </v-row>
+    </v-col>
 
-    <v-row>
-      <v-col cols="3">
-        <v-subheader>Backzeit</v-subheader>
-      </v-col>
+    <v-col>
+        <h2>Backzeit</h2>
       <v-col cols="5">
         <v-text-field label="hh:mm" v-model="duration" type="time" suffix="Dauer"></v-text-field>
       </v-col>
-    </v-row>
+    </v-col>
 
     <v-spacer></v-spacer>
     <h2>Setze den Timer auf</h2>
-    <p>{{calculateBakingTimer()}}</p>
+    <h1 class=".display-3">{{calculateBakingTimer()}}</h1>
   </v-container>
 </template>
 
@@ -72,34 +71,46 @@ export default {
   name: "HelloWorld",
   data: () => ({
     duration: "00:18",
-    startTime: date.getHours() + ":" + date.getMinutes(),
+    startTime: date.getHours().toString().padStart(2, "0") + ":" + date.getMinutes().toString().padStart(2, "0"),
     endTime: "05:25",
     menu1: false,
     menu2: false
   }),
   methods: {
     calculateBakingTimer: function() {
-      let startTimes = this.startTime.split(":").map(x => Number(x));
-      let endTimes = this.endTime.split(":").map(x => Number(x));
-      let durationTimes = this.duration.split(":").map(x => Number(x));
-      let s = new Date();
-      s.setHours(startTimes[0]);
-      s.setMinutes(startTimes[1]);
+      let startTimes = this.getTimeArray(this.startTime);
+      let endTimes = this.getTimeArray(this.endTime);
+      let durationTimes = this.getTimeArray(this.duration);
 
-      let t = new Date();
-      t.setHours(endTimes[0]);
-      t.setMinutes(endTimes[1]);
+      let s = this.setDate(startTimes);
+      let t = this.setDate(endTimes);
+
       if (endTimes[0] - startTimes[0]) t.setDate(t.getDate() + 1);
-      // return bakingHours +":"+ bakingMinutes;
-      var ms = (t - s) - (durationTimes[0]*60*60*1000) - (durationTimes[1]*60*1000);
-      let hours = Math.floor(ms / (1000*60*60));
-      let minutes = Math.floor((ms-(hours*1000*60*60)) / 60000);
+      var ms = t - s - durationTimes[0] * 60 * 60 * 1000 - durationTimes[1] * 60 * 1000;
+      let hours = Math.floor(ms / (1000 * 60 * 60));
+      let minutes = Math.floor((ms - hours * 1000 * 60 * 60) / 60000);
 
-      return hours.toString().padStart(2, '0') +":"+minutes.toString().padStart(2, '0');
+      return this.createTimeString(hours, minutes);
     },
     setTime: function(time, reference) {
       reference.save(time);
       this.calculateBakingTimer();
+    },
+    getTimeArray: function(timeString) {
+      return timeString.split(":").map(x => Number(x));
+    },
+    setDate: function(timeArray) {
+      let s = new Date();
+      s.setHours(timeArray[0]);
+      s.setMinutes(timeArray[1]);
+      return s;
+    },
+    createTimeString: function(hours, minutes) {
+      return (
+        hours.toString().padStart(2, "0") +
+        ":" +
+        minutes.toString().padStart(2, "0")
+      );
     }
   }
 };

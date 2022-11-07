@@ -32,7 +32,7 @@ function App() {
     var ms = newEnd - start - value.getHours() * 60 * 60 * 1000 - value.getMinutes() * 60 * 1000;
     let hours = Math.floor(ms / (1000 * 60 * 60));
     let minutes = Math.floor((ms - hours * 1000 * 60 * 60) / 60000);
-    return hours + ':' + minutes;
+    return hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
   }
 
   return (

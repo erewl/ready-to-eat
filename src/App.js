@@ -47,7 +47,7 @@ function App() {
         </AppBar>
 
         <Box sx={{
-          minHeight: '50vh',
+          minHeight: '60vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',

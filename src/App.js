@@ -63,7 +63,6 @@ function App() {
             value={start}
             onChange={(newValue) => {
               setStart(newValue);
-              // setTimerSetting(createDurationTimer())
             }}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -75,7 +74,6 @@ function App() {
             value={end}
             onChange={(newValue) => {
               setEnd(newValue);
-              // setTimerSetting(createDurationTimer())
             }}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -89,7 +87,6 @@ function App() {
             value={value}
             onChange={(newValue) => {
               setValue(newValue);
-              // setTimerSetting(createDurationTimer())
             }}
             renderInput={(params) => <TextField {...params} />}
           />

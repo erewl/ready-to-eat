@@ -15,12 +15,12 @@ function App() {
   const [start, setStart] = React.useState(new Date());
 
   let initialEndTime = new Date()
-  initialEndTime.setMinutes(25)
+  initialEndTime.setMinutes(20)
   initialEndTime.setHours(5)
   const [end, setEnd] = React.useState(initialEndTime);
 
   let initialTime = new Date()
-  initialTime.setMinutes(18)
+  initialTime.setMinutes(20)
   initialTime.setHours(0)
   const [value, setValue] = React.useState(initialTime);
 
